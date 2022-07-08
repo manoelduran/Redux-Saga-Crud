@@ -9,7 +9,7 @@ import {
     fork,
     call
 } from 'redux-saga/effects';
-import { loadUsersSuccess, loadUsersError } from './actions';
+import { loadUsersSuccess, loadUsersError, createUserError, createUserSuccess } from './actions';
 import * as api from '../services/api';
 
 
@@ -25,12 +25,28 @@ export function* onLoadUsersStartAsync() {
     }
 }
 
+export function* onCreateUserStartAsync({ payload }) {
+    try {
+        const response = yield call(api.createUser, payload); // chamada assyncrona
+        if (response.status === 201) {
+            yield put(createUserSuccess(response.data));
+        }
+    } catch (error) {
+        yield put(createUserError(error.response.data));
+    }
+}
+
 export function* onLoadUsers() {
     yield takeEvery(types.LOAD_USERS_START, onLoadUsersStartAsync)
 }
 
+export function* onCreateUser() {
+    yield takeLatest(types.CREATE_USER_START, onCreateUserStartAsync)
+}
+
 const userSagas = [
-    fork(onLoadUsers)
+    fork(onLoadUsers),
+    fork(onCreateUser)
 ];
 
 export default function* rootSaga() {
