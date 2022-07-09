@@ -9,11 +9,11 @@ import {
     fork,
     call
 } from 'redux-saga/effects';
-import { loadUsersSuccess, loadUsersError, createUserError, createUserSuccess } from './actions';
+import { loadUsersSuccess, loadUsersError, createUserError, createUserSuccess, deleteUserSuccess, deleteUserError } from './actions';
 import * as api from '../services/api';
 
 
-export function* onLoadUsersStartAsync() {
+function* onLoadUsersStartAsync() {
     try {
         const response = yield call(api.getUsers); // chamada assyncrona
         if (response.status === 200) {
@@ -25,7 +25,7 @@ export function* onLoadUsersStartAsync() {
     }
 }
 
-export function* onCreateUserStartAsync({ payload }) {
+function* onCreateUserStartAsync({ payload }) {
     try {
         const response = yield call(api.createUser, payload); // chamada assyncrona
         if (response.status === 201) {
@@ -36,17 +36,37 @@ export function* onCreateUserStartAsync({ payload }) {
     }
 }
 
-export function* onLoadUsers() {
+function* onDeleteUserStartAsync(id) {
+    try {
+        const response = yield call(api.deleteUser, id); // chamada assyncrona
+        if (response.status === 200) {
+            yield delay(500);
+            yield put(deleteUserSuccess(id));
+        }
+    } catch (error) {
+        yield put(deleteUserError(error.response.data));
+    }
+}
+
+function* onLoadUsers() {
     yield takeEvery(types.LOAD_USERS_START, onLoadUsersStartAsync)
 }
 
-export function* onCreateUser() {
+function* onCreateUser() {
     yield takeLatest(types.CREATE_USER_START, onCreateUserStartAsync)
+}
+
+function* onDeleteUser() {
+    while (true) {
+        const { payload: id } = yield take(types.DELETE_USER_START);
+        yield call(onDeleteUserStartAsync, id);
+    }
 }
 
 const userSagas = [
     fork(onLoadUsers),
-    fork(onCreateUser)
+    fork(onCreateUser),
+    fork(onDeleteUser),
 ];
 
 export default function* rootSaga() {

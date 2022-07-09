@@ -29,7 +29,7 @@ const usersReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                users: state.users.filter(user => user.id !== action.payload)
+                users: state.users.filter((user) => user.id !== action.payload),
             };
         case types.LOAD_USERS_ERROR:
         case types.CREATE_USER_ERROR:
