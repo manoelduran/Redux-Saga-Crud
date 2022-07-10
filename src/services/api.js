@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { put } from 'redux-saga/effects';
 
 export const api = axios.create({
     baseURL: "http://localhost:5000"
@@ -15,6 +16,11 @@ export const createUser = async (user) => {
 };
 
 export const deleteUser = async (id) => {
-  const response =  await api.delete(`/users/${id}`);
-  return response;
-}
+    const response = await api.delete(`/users/${id}`);
+    return response;
+};
+
+export const updateUser = async (id, user) => {
+    const response = await api.put(`/users/${id}`, user);
+    return response;
+};

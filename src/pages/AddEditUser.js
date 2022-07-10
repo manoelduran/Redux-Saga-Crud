@@ -1,41 +1,58 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     MDBValidation,
     MDBInput,
     MDBBtn
 } from 'mdb-react-ui-kit';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createUserStart } from '../redux/actions';
+import { createUserStart, updateUserStart } from '../redux/actions';
 import { toast } from 'react-toastify';
 
 const initialState = {
     name: "",
     email: "",
     phone: "",
-    address: ""
-}
+    address: "",
+};
 
 const AddEditUser = () => {
+    const { id } = useParams();
+    // console.log("id", typeof (id));
     const [formValue, setFormValue] = useState(initialState);
+    const [editMode, setEditMode] = useState(false);
     const { name, email, phone, address } = formValue;
+    const { users } = useSelector(state => state.data);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        if (id) {
+            setEditMode(true);
+            const selectedUser = users.find(user => user.id === Number(id));
+            setFormValue({ ...selectedUser });
+        }
+    }, [users, id]);
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (name && email && phone && address) {
-            dispatch(createUserStart(formValue));
-            toast.success("User Added Successfully!")
+        if (name && email && phone && address && editMode) {
+            dispatch(updateUserStart({ id, formValue }));
+            toast.success("User Updated Successfully!");
+            setEditMode(false);
             setTimeout(() => navigate("/"), 500);
-        }
+            return;
+        };
+        dispatch(createUserStart(formValue));
+        toast.success("User Added Successfully!");
+        setTimeout(() => navigate("/"), 500);
     };
     const onInputChange = (event) => {
         event.preventDefault();
         let { name, value } = event.target;
-        setFormValue({ ...formValue, [name]: value })
+        setFormValue({ ...formValue, [name]: value });
 
-    }
+    };
     return (
         <MDBValidation
             className="row gap-3"
@@ -43,7 +60,9 @@ const AddEditUser = () => {
             noValidate
             onSubmit={handleSubmit}
         >
-            <p className='fs-2 fw-bold'>Add User Detail</p>
+            <p className='fs-2 fw-bold'>
+                {editMode ? "Update User Detail" : "Add User Detail"}
+            </p>
             <div style={{
                 margin: "auto",
                 padding: "15px",
@@ -51,7 +70,7 @@ const AddEditUser = () => {
                 alignContent: "center"
             }}>
                 <MDBInput
-                    value={name}
+                    value={name || ""}
                     name="name"
                     type="text"
                     onChange={onInputChange}
@@ -62,7 +81,7 @@ const AddEditUser = () => {
                 />
                 <br />
                 <MDBInput
-                    value={email}
+                    value={email || ""}
                     name="email"
                     type="email"
                     onChange={onInputChange}
@@ -73,7 +92,7 @@ const AddEditUser = () => {
                 />
                 <br />
                 <MDBInput
-                    value={phone}
+                    value={phone || ""}
                     name="phone"
                     type="number"
                     onChange={onInputChange}
@@ -84,7 +103,7 @@ const AddEditUser = () => {
                 />
                 <br />
                 <MDBInput
-                    value={address}
+                    value={address || ""}
                     name="address"
                     type="text"
                     onChange={onInputChange}
@@ -97,7 +116,7 @@ const AddEditUser = () => {
                 <div className='col-12'>
                     <MDBBtn style={{ marginRight: "10px" }}
                         type="submit">
-                        Add
+                        {editMode ? "Update" : " Add"}
                     </MDBBtn>
                     <MDBBtn onClick={() => navigate("/")} color="danger">
                         Go Back

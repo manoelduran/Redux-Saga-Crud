@@ -37,9 +37,23 @@ export const deleteUserStart = (id) => ({
 export const deleteUserSuccess = (id) => ({
     type: types.DELETE_USER_SUCCESS,
     payload: id,
-})
+});
 
 export const deleteUserError = (error) => ({
     type: types.DELETE_USER_ERROR,
     payload: error,
-})
+});
+
+export const updateUserStart = (user) => ({
+    type: types.UPDATE_USER_START,
+    payload: user,
+});
+
+export const updateUserSuccess = () => ({
+    type: types.UPDATE_USER_SUCCESS,
+});
+
+export const updateUserError = (error) => ({
+    type: types.UPDATE_USER_ERROR,
+    payload: error,
+});

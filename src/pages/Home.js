@@ -10,13 +10,14 @@ import {
     MDBTooltip,
     MDBSpinner,
 } from 'mdb-react-ui-kit';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { users } = useSelector(state => state.data);
+    const { users, loading, error } = useSelector((state) => state.data);
     const navigate = useNavigate();
+
     const handleDelete = (id) => {
         if (window.confirm("Are you sure that you wanted to delete that user?")) {
             dispatch(deleteUserStart(id));
@@ -25,10 +26,20 @@ const Home = () => {
     };
     useEffect(() => {
         dispatch(loadUsersStart());
-    }, [dispatch])
-
+    }, [dispatch]);
+    useEffect(() => {
+        error && toast.error(error)
+    }, [error]);
+    if (loading) {
+        return (
+            <MDBSpinner style={{ marginTop: "150px" }} role="status">
+                <span className="visually-hidden">Loading...</span>
+            </MDBSpinner>
+        );
+    };
     return (
-        <div className="container" style={{ marginTop: "150px" }}>
+        < div className="container" style={{ marginTop: "150px" }
+        }>
             <MDBTable>
                 <MDBTableHead dark>
                     <tr>
@@ -98,7 +109,7 @@ const Home = () => {
                     ))
                 }
             </MDBTable>
-        </div>
+        </div >
     );
 }
 
