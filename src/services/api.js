@@ -24,3 +24,8 @@ export const updateUser = async (id, user) => {
     const response = await api.put(`/users/${id}`, user);
     return response;
 };
+
+export const searchUsers = async (query) => {
+    const response = await api.get(`/users?q=${query}`);
+    return response;
+};

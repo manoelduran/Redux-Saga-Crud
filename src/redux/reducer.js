@@ -11,11 +11,13 @@ const usersReducer = (state = initialState, action) => {
         case types.CREATE_USER_START:
         case types.DELETE_USER_START:
         case types.UPDATE_USER_START:
+        case types.SEARCH_USER_START:
             return {
                 ...state,
                 loading: true,
             };
         case types.LOAD_USERS_SUCCESS:
+        case types.SEARCH_USER_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -37,6 +39,7 @@ const usersReducer = (state = initialState, action) => {
         case types.CREATE_USER_ERROR:
         case types.DELETE_USER_ERROR:
         case types.UPDATE_USER_ERROR:
+        case types.SEARCH_USER_ERROR:
             return {
                 ...state,
                 loading: false,
