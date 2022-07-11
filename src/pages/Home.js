@@ -53,7 +53,7 @@ const Home = () => {
                 </MDBTableHead>
                 {users &&
                     users.map((user, index) => (
-                        <MDBTableBody key={index}>
+                        <MDBTableBody key={user.id}>
                             <tr>
                                 <th scope="row">{index + 1}</th>
                                 <td>{user.name}</td>
