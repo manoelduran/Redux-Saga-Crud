@@ -34,3 +34,8 @@ export const filterUsers = async (value) => {
     const response = await api.get(`/users?status=${value}`);
     return response;
 };
+
+export const sortUsers = async (value) => {
+    const response = await api.get(`/users?_sort=${value}&_order=asc`);
+    return response;
+};
