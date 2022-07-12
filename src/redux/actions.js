@@ -72,3 +72,18 @@ export const searchUserError = (error) => ({
     type: types.SEARCH_USER_ERROR,
     payload: error,
 });
+
+export const filterUserStart = (value) => ({
+    type: types.FILTER_USER_START,
+    payload: value,
+});
+
+export const filterUserSuccess = (users) => ({
+    type: types.FILTER_USER_SUCCESS,
+    payload: users,
+});
+
+export const filterUserError = (error) => ({
+    type: types.FILTER_USER_ERROR,
+    payload: error,
+});

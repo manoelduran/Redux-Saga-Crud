@@ -20,6 +20,8 @@ import {
     updateUserError,
     searchUserSuccess,
     searchUserError,
+    filterUserSuccess,
+    filterUserError,
 } from './actions';
 import * as api from '../services/api';
 
@@ -81,6 +83,17 @@ function* onSearchUserStartAsync({ payload: query }) {
     }
 };
 
+function* onFilterUserStartAsync({ payload: value }) {
+    try {
+        const response = yield call(api.filterUsers, value); // chamada assyncrona
+        if (response.status === 200) {
+            yield put(filterUserSuccess(response.data));
+        }
+    } catch (error) {
+        yield put(filterUserError(error.response.data));
+    }
+};
+
 function* onLoadUsers() {
     yield takeEvery(types.LOAD_USERS_START, onLoadUsersStartAsync)
 };
@@ -104,12 +117,17 @@ function* onSearchUsers() {
     yield takeLatest(types.SEARCH_USER_START, onSearchUserStartAsync)
 };
 
+function* onFilterUsers() {
+    yield takeLatest(types.FILTER_USER_START, onFilterUserStartAsync)
+};
+
 const userSagas = [
     fork(onLoadUsers),
     fork(onCreateUser),
     fork(onDeleteUser),
     fork(onUpdateUser),
     fork(onSearchUsers),
+    fork(onFilterUsers),
 ];
 
 export default function* rootSaga() {

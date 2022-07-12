@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import {
     MDBValidation,
     MDBInput,
@@ -14,14 +14,26 @@ const initialState = {
     email: "",
     phone: "",
     address: "",
+    status: "",
 };
+
+const options = [
+    {
+        label: "Active",
+        value: "active",
+    },
+    {
+        label: "Inactive",
+        value: "inactive",
+    },
+]
 
 const AddEditUser = () => {
     const { id } = useParams();
     // console.log("id", typeof (id));
     const [formValue, setFormValue] = useState(initialState);
     const [editMode, setEditMode] = useState(false);
-    const { name, email, phone, address } = formValue;
+    const { name, email, phone, address, status } = formValue;
     const { users } = useSelector(state => state.data);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -53,6 +65,10 @@ const AddEditUser = () => {
         setFormValue({ ...formValue, [name]: value });
 
     };
+    const onDropdownChange = useCallback((event) => {
+        event.preventDefault();
+        setFormValue({ ...formValue, status: event.target.value })
+    }, [formValue])
     return (
         <MDBValidation
             className="row gap-3"
@@ -113,7 +129,16 @@ const AddEditUser = () => {
                     invalid
                 />
                 <br />
-                <div className='col-12'>
+                <select style={{ width: '100%', borderRadius: "4px", height: "35px" }} onChange={onDropdownChange}>
+                    <option>Please Select Status</option>
+                    {options?.map(option => (
+                        <option value={option.label || ""} selected={option.label === status ? true : false}>{option.label}</option>
+                    ))
+                    }
+                </select>
+                <br />
+                <br />
+                <div className='col-12 mt-12'>
                     <MDBBtn style={{ marginRight: "10px" }}
                         type="submit">
                         {editMode ? "Update" : " Add"}

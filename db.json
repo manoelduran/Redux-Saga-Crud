@@ -5,35 +5,32 @@
       "name": "user1",
       "email": "james1@gmail.com",
       "phone": 7777777771,
-      "address": "USA"
+      "address": "USA",
+      "status": "Inactive"
     },
     {
       "id": 2,
       "name": "user2",
       "email": "james2@gmail.com",
       "phone": 7777777772,
-      "address": "BRA"
+      "address": "BRA",
+      "status": "Active"
     },
     {
       "id": 3,
       "name": "user3",
       "email": "james3@gmail.com",
       "phone": 7777777773,
-      "address": "MEX"
+      "address": "MEX",
+      "status": "Inactive"
     },
     {
       "id": 4,
       "name": "user4",
       "email": "james4@gmail.com",
       "phone": 7777777774,
-      "address": "BRA"
-    },
-    {
-      "name": "wwwwwwwww",
-      "email": "eqweqweq@hotmail.com",
-      "phone": "3333333333",
-      "address": "qweqwewq",
-      "id": 6
+      "address": "BRA",
+      "status": "Active"
     }
   ]
 }

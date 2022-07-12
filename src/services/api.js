@@ -29,3 +29,8 @@ export const searchUsers = async (query) => {
     const response = await api.get(`/users?q=${query}`);
     return response;
 };
+
+export const filterUsers = async (value) => {
+    const response = await api.get(`/users?status=${value}`);
+    return response;
+};
