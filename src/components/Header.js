@@ -12,7 +12,7 @@ import {
     MDBCollapse,
     MDBBtn,
 } from 'mdb-react-ui-kit';
-import { searchUserStart } from '../redux/actions';
+import { loadUsersStart, searchUserStart } from '../redux/actions';
 
 
 const Header = () => {
@@ -70,7 +70,9 @@ const Header = () => {
                                 value={name}
                                 onChange={(event) => setName(event.target.value)} />
                             <MDBBtn color='dark' type="submit">Search</MDBBtn>
+                            
                         </form>
+                        <MDBBtn color='info' style={{marginLeft: "4px"}} onClick={() => dispatch(loadUsersStart())}>Reset</MDBBtn>
                     </MDBCollapse>
                 </MDBContainer>
             </MDBNavbar>

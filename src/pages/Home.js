@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteUserStart, filterUserStart, loadUsersStart } from '../redux/actions';
+import { deleteUserStart, filterUserStart, loadUsersStart, sortUserStart } from '../redux/actions';
 import {
     MDBTable,
     MDBTableHead,
@@ -20,7 +20,24 @@ import { toast } from 'react-toastify';
 const Home = () => {
     const dispatch = useDispatch();
     const { users, loading, error } = useSelector((state) => state.data);
+    const [sortValue, setSortValue] = useState("");
     const navigate = useNavigate();
+    const sortOption = ["Name", "Email", "Phone", "Address", "Status"];
+    const onSortChange = useCallback((event) => {
+        event.preventDefault();
+        let sortValue = event.target.value.toLowerCase()
+            .split(" ")
+            .map((sort) => sort.charAt(0).toUpperCase() + sort.substring(1))
+            .join(" ");
+        console.log('sortValue', sortValue)
+        if(sortOption.includes(sortValue)){
+            setSortValue(event.target.value);
+            dispatch(sortUserStart(event.target.value))
+        } else {
+            dispatch(loadUsersStart());
+            setSortValue("");
+        }
+    }, [dispatch]);
     const onFilterChange = (value) => {
         dispatch(filterUserStart(value));
     };
@@ -122,12 +139,21 @@ const Home = () => {
             <MDBRow>
                 <MDBCol size="8">
                     <h5>Sort By:</h5>
+                    <select style={{ width: "50%", borderRadius: "2px", height: "35px" }}
+                        value={sortValue}
+                        onChange={onSortChange}
+                    >
+                        <option>Please Select Value</option>
+                        {sortOption.map((item, index) => (
+                            <option key={index} value={item.toLowerCase()}>{item}</option>
+                        ))}
+                    </select>
                 </MDBCol>
                 <MDBCol size="4">
                     <h5>Filter By Status:</h5>
                     <MDBBtnGroup>
                         <MDBBtn color='success' onClick={() => onFilterChange("Active")}>Active</MDBBtn>
-                        <MDBBtn color='danger' onClick={() => onFilterChange("Inactive")} style={{marginLeft: '5px'}}>Inactive</MDBBtn>
+                        <MDBBtn color='danger' onClick={() => onFilterChange("Inactive")} style={{ marginLeft: '5px' }}>Inactive</MDBBtn>
                     </MDBBtnGroup>
                 </MDBCol>
             </MDBRow>
