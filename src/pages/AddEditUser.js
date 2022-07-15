@@ -33,6 +33,7 @@ const AddEditUser = () => {
     // console.log("id", typeof (id));
     const [formValue, setFormValue] = useState(initialState);
     const [editMode, setEditMode] = useState(false);
+    const [statusErrorMessage, setStatusErrorMessage] = useState(null);
     const { name, email, phone, address, status } = formValue;
     const { users } = useSelector(state => state.data);
     const navigate = useNavigate();
@@ -48,7 +49,11 @@ const AddEditUser = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (name && email && phone && address && editMode) {
+        if (!status) {
+            setStatusErrorMessage("Please provide a Status");
+            return;
+        };
+        if (name && email && phone && address && editMode && status) {
             dispatch(updateUserStart({ id, formValue }));
             toast.success("User Updated Successfully!");
             setEditMode(false);
@@ -67,6 +72,7 @@ const AddEditUser = () => {
     };
     const onDropdownChange = useCallback((event) => {
         event.preventDefault();
+        setStatusErrorMessage(null);
         setFormValue({ ...formValue, status: event.target.value })
     }, [formValue])
     return (
@@ -129,13 +135,18 @@ const AddEditUser = () => {
                     invalid
                 />
                 <br />
-                <select style={{ width: '100%', borderRadius: "4px", height: "35px" }} onChange={onDropdownChange}>
+                <select style={{ width: '100%', borderRadius: "4px", height: "35px", borderColor: "#83ccc5", }} value={status} onChange={onDropdownChange}>
                     <option>Please Select Status</option>
-                    {options?.map(option => (
-                        <option value={option.label || ""} selected={option.label === status ? true : false}>{option.label}</option>
+                    {options?.map((option, index) => (
+                        <option key={index} value={option.label || ""} >{option.label}</option>
                     ))
                     }
                 </select>
+                {statusErrorMessage  && (
+                    <div style={{color: "red", textAlign: "left", fontSize: "15px"}}>
+                        {statusErrorMessage}
+                        </div>
+                )}
                 <br />
                 <br />
                 <div className='col-12 mt-12'>

@@ -72,7 +72,7 @@ const Header = () => {
                             <MDBBtn color='dark' type="submit">Search</MDBBtn>
                             
                         </form>
-                        <MDBBtn color='info' style={{marginLeft: "4px"}} onClick={() => dispatch(loadUsersStart())}>Reset</MDBBtn>
+                        <MDBBtn color='info' style={{marginLeft: "4px"}} onClick={() => dispatch(loadUsersStart({start:0, end: 4, currentPage: 0}))}>Reset</MDBBtn>
                     </MDBCollapse>
                 </MDBContainer>
             </MDBNavbar>

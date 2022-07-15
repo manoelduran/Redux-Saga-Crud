@@ -1,7 +1,8 @@
 import * as types from './actionTypes';
 
-export const loadUsersStart = () => ({
+export const loadUsersStart = (pageInfo) => ({
     type: types.LOAD_USERS_START,
+    payload: pageInfo,
 });
 
 export const loadUsersSuccess = (users) => ({

@@ -5,8 +5,8 @@ export const api = axios.create({
     baseURL: "http://localhost:5000"
 });
 
-export const getUsers = async () => {
-    const response = await api.get("/users");
+export const getUsers = async (start, end) => {
+    const response = await api.get(`/users?_start=${start}&_end=${end}`);
     return response;
 };
 

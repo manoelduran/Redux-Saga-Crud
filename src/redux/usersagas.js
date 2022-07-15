@@ -28,12 +28,12 @@ import {
 import * as api from '../services/api';
 
 
-function* onLoadUsersStartAsync() {
+function* onLoadUsersStartAsync({ payload: { start, end, currentPage } }) {
     try {
-        const response = yield call(api.getUsers); // chamada assyncrona
+        const response = yield call(api.getUsers, start, end); // chamada assyncrona
         if (response.status === 200) {
             yield delay(500); // setTimeOut
-            yield put(loadUsersSuccess(response.data));
+            yield put(loadUsersSuccess({users: response.data, currentPage}));
         }
     } catch (error) {
         yield put(loadUsersError(error.response.data));
