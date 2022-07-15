@@ -167,6 +167,14 @@
       "address": "",
       "status": "",
       "id": 9
+    },
+    {
+      "name": "MANOEL CENDON DURAN",
+      "email": "manoel.duran@hotmail.com",
+      "phone": "71991136361",
+      "address": "Avenida Euclydes da Cunha, 702",
+      "status": "Active",
+      "id": 10
     }
   ]
 }
