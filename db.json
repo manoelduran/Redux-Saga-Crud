@@ -145,36 +145,28 @@
       "id": 6
     },
     {
-      "name": "",
-      "email": "",
-      "phone": "",
-      "address": "",
-      "status": "",
-      "id": 7
-    },
-    {
-      "name": "",
-      "email": "",
-      "phone": "",
-      "address": "",
-      "status": "",
-      "id": 8
-    },
-    {
-      "name": "",
-      "email": "",
-      "phone": "",
-      "address": "",
-      "status": "",
-      "id": 9
-    },
-    {
       "name": "MANOEL CENDON DURAN",
       "email": "manoel.duran@hotmail.com",
       "phone": "71991136361",
       "address": "Avenida Euclydes da Cunha, 702",
       "status": "Active",
       "id": 10
+    },
+    {
+      "name": "MANOEL CENDON DURAN",
+      "email": "ghoeugenio@gmail.com",
+      "phone": "71991136361",
+      "address": "Avenida Euclydes da Cunha, 702",
+      "status": "Inactive",
+      "id": 11
+    },
+    {
+      "name": "MANOEL CENDON DURAN",
+      "email": "teste@integrador.com.br",
+      "phone": "71991136361",
+      "address": "Avenida Euclydes da Cunha, 702",
+      "status": "Inactive",
+      "id": 12
     }
   ]
 }

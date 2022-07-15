@@ -51,7 +51,7 @@ const Home = () => {
             dispatch(loadUsersStart());
             setSortValue("");
         }
-    }, [dispatch]);
+    }, []);
     useEffect(() => {
         dispatch(loadUsersStart({ start: 0, end: 4, currentPage: 0 }));
     }, [dispatch]);
@@ -93,7 +93,7 @@ const Home = () => {
                     <MDBPaginationItem>
                         <MDBBtn onClick={() => dispatch(loadUsersStart({
                             start: (currentPage - 1) * 4,
-                            end: currentPage,
+                            end: currentPage * 4,
                             currentPage: -1
                         }))}>Prev</MDBBtn>
                     </MDBPaginationItem>
